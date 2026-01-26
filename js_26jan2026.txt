@@ -1,0 +1,23 @@
+ Ques - 
+ What is JavaScript?
+
+Answer - 
+javascript used for making websites interactive and dynamic ,
+javascript adds behaviour like  - responding to user and update content with a click , 
+javascript is not limited to browser it is also used in server side also like node js  
+
+
+Ques - What are the key features of JavaScript?
+
+Answer - JavaScript runs directly in the browser because browsers are built with a JavaScript engine (like V8, SpiderMonkey) that can understand and execute JavaScript safely.
+JavaScript was designed specifically for browsers to make web pages interactive, while also following strict security rules like sandboxing, so it can’t harm the user’s system.
+
+Other languages like C++, Java, or Python are not supported directly by browsers because they need compilation or a runtime environment, and allowing them to run freely would create major security risks.
+However, those languages can still be used on the server side, while JavaScript acts as the bridge between the user and the browser.
+
+
+
+
+
+
+
