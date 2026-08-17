@@ -1,0 +1,44 @@
+What is Blockchain ?.......................................................
+
+Blockchain is a distributed, decentralized ledger that stores data in the form of blocks, where each block is chained to the previous one using cryptography.
+Instead of storing data in one central place (like a traditional database), blockchain copies the same data across thousands of computers called nodes. Every node has the same copy of the entire data.
+Why is it secure?
+ If someone wants to tamper with data, they would need to change that block on more than 50% of all nodes simultaneously — this is called a 51% attack — which is practically impossible on a large network. On top of that, each block contains a hash (a unique fingerprint) of the previous block, so changing one block would break the entire chain.
+Key properties of Blockchain:
+Decentralized — No single authority controls it
+Immutable — Once data is written, it cannot be changed
+Transparent — Anyone can verify the data
+Secure — Protected by cryptography
+
+What is Cryptography ?..........................................................
+
+Cryptography is the science of securing information by converting it into a format that only authorized parties can read or verify.
+In blockchain, cryptography is used in two main ways:
+1. Hashing
+ A hash function takes any input data and converts it into a fixed-length unique string (called a hash or digest).
+Example: Bitcoin uses SHA-256 hashing
+Even a tiny change in input completely changes the hash
+It is a one-way function — you cannot reverse a hash back to original data
+This is how each block gets its unique fingerprint, and why tampering is detectable
+2. Public Key Cryptography (Asymmetric Encryption)
+ Every user on blockchain has two keys:
+Private Key — only you know it. Used to sign transactions
+Public Key — visible to everyone. Used to verify your identity
+Think of it like this:
+Your public key is your email address (anyone can send to it), and your private key is your password (only you know it).
+Why does Cryptography matter in Blockchain?
+Hashing makes data tamper-proof
+Digital signatures make transactions authentic and non-repudiable (meaning no one can deny they signed it)
+Together they make blockchain trustless — you don't need to trust a person or institution, the math does it for you
+Simple one-liner:
+ "Cryptography in blockchain uses hashing to secure data and public-private key pairs to verify identity — making the system trustless and tamper-proof."
+
+The key power word here for your interview is "trustless" — it always impresses interviewers because it shows you understand the philosophy of blockchain, not just the technology.
+
+
+
+
+
+
+
+
