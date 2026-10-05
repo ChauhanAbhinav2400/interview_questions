@@ -1,0 +1,93 @@
+Q1. Find the bug
+
+solidity
+contract Bank {
+    mapping(address => uint256) public balances;
+
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdraw(uint256 amount) external {
+        require(balances[msg.sender] >= amount, "low balance");
+        (bool ok, ) = msg.sender.call{value: amount}("");
+        require(ok, "send failed");
+        balances[msg.sender] -= amount;
+    }
+}
+
+Explain the exploit step by step and write the attacker contract.
+
+Q2. Fix Q1 in two different ways
+Fix it once with Checks-Effects-Interactions and once with a reentrancy guard. Write your own simple nonReentrant modifier (do not import OpenZeppelin). Then tell me which is better and why.
+
+Q3. Cross-function reentrancy
+
+solidity
+contract Vault {
+    mapping(address => uint256) public balances;
+    bool private locked;
+
+    modifier nonReentrant() {
+        require(!locked);
+        locked = true;
+        _;
+        locked = false;
+    }
+
+    function withdraw() external nonReentrant {
+        uint256 bal = balances[msg.sender];
+        (bool ok, ) = msg.sender.call{value: bal}("");
+        require(ok);
+        balances[msg.sender] = 0;
+    }
+
+    function transfer(address to, uint256 amount) external {
+        require(balances[msg.sender] >= amount);
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+    }
+}
+
+The withdraw has a guard. Is this contract still safe? If not, show the exploit.
+
+Q4. Read-only reentrancy
+
+solidity
+contract Pool {
+    uint256 public totalShares;
+    mapping(address => uint256) public shares;
+
+    function removeLiquidity() external {
+        uint256 s = shares[msg.sender];
+        uint256 ethOut = (address(this).balance * s) / totalShares;
+        totalShares -= s;
+        shares[msg.sender] = 0;
+        (bool ok, ) = msg.sender.call{value: ethOut}("");
+        require(ok);
+    }
+
+    function pricePerShare() public view returns (uint256) {
+        return address(this).balance * 1e18 / totalShares;
+    }
+}
+
+Another protocol (Lender) uses Pool.pricePerShare() to value collateral. What is the read-only reentrancy attack here? Why does a nonReentrant modifier on removeLiquidity not protect Lender, and how do you actually fix it?
+
+Q5. NFT callback reentrancy
+
+solidity
+contract NFTSale is ERC721 {
+    uint256 public constant MAX_PER_WALLET = 2;
+    uint256 public nextId;
+    mapping(address => uint256) public minted;
+
+    function mint() external payable {
+        require(msg.value == 0.1 ether);
+        require(minted[msg.sender] < MAX_PER_WALLET, "limit");
+        _safeMint(msg.sender, nextId++);
+        minted[msg.sender]++;
+    }
+}
+
+How can someone mint more than 2 NFTs? Write the attacker contract and the fix.
